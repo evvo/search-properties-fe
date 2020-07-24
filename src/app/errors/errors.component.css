@@ -1,0 +1,25 @@
+ul {
+  list-style: none;
+  padding: 16px;
+  margin: 0;
+}
+
+button {
+  margin: 0 0 16px 16px;
+}
+
+.errors {
+  background-color: #bd1a1a;
+  color: #ffffff;
+  width: 100%;
+}
+
+.fixed {
+  top: 59px;
+  position: fixed;
+  z-index: 5;
+}
+
+.relative {
+  position: relative;
+}

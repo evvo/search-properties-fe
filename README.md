@@ -4,6 +4,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
+Install the required dependencies:
+
+```bash
+npm install
+```
+
+Install Angular CLI:
+
+```bash
+npm install -g @angular/cli
+```
+
+Set your back-end url in environments/environment.ts for dev or environments/environment.prod.ts for production
+
+apiUrl - URL of the backend API
+mapApiKey - API key for HERE.com maps
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding

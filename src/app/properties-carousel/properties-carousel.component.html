@@ -1,0 +1,34 @@
+<ngu-carousel #propertiesCarousel id="properties-carousel"
+  (onMove)="onMoveFn($event)"
+  [inputs]="carouselConfig"
+  [dataSource]="properties"
+  >
+	<div *nguCarouselDef="let item; let currentIndex = index" class="item"  [class.active]="currentIndex==currentItemIndex">
+		<div class="tile" [ngClass]="{'stopped-events': selectedProperty !== null}">
+
+      <div>
+        <div class="book-image">
+          <img *ngIf="item.image" alt="{{item.name}}" src="{{item.image}}" />
+          <img *ngIf="!item.image" alt="{{item.name}}" src="https://via.placeholder.com/150" />
+        </div>
+
+        <div class="book-details">
+          <div class="book-title">{{item.name}}</div>
+          <div class="book-description">3.4 km from the city center</div>
+          <div class="book-price">&#65505;99</div>
+          <div class="book-designs">Designs may vary</div>
+        </div>
+
+        <div class="book-price-small">&#65505;99</div>
+      </div>
+
+      <!-- <button class="book-button" type="button" label="Open" (click)="selectPropertyId(item)">Book</button> -->
+      <app-button [label]="'Book'" (click)="selectProperty(item)"></app-button>
+		</div>
+	</div>
+</ngu-carousel>
+
+<div class="booking-form-container" *ngIf="selectedProperty">
+    <button type="button" label="Close" (click)="closeBookForm()">[ X ]</button>
+    <app-booking-form [property]="selectedProperty" [closeFn]="closeBookForm.bind(this)"></app-booking-form>
+</div>

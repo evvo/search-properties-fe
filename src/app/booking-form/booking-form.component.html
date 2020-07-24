@@ -1,0 +1,20 @@
+<div class="booking-container" *ngIf="success">
+  <div class="success-booking">Booking received!</div>
+</div>
+
+<form  class="booking-container" *ngIf="!success">
+  <div class="property-title">Property: {{property.name}}</div>
+  <div class="separate-input">
+    <label>Dates:</label><br />
+    <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" />
+  </div>
+
+  <div class="separate-input">
+    <label>Username:</label><br />
+    <input name="username" [(ngModel)]="username" required />
+  </div>
+
+  <div class="submit-button">
+    <app-button (click)="submitForm()" [label]="'Submit'"></app-button>
+  </div>
+</form>

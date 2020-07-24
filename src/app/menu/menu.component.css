@@ -1,0 +1,17 @@
+:host {
+  height: 59px;
+  min-height: 59px;
+  width:100%;
+  background-color: #eaeae6 !important;
+  position: fixed;
+  top: 0;
+  z-index: 9999999;
+  margin:0;
+  padding-inline-start: 0;
+}
+
+#logo {
+  padding-left: 19px;
+  padding-top: 17px;
+  padding-bottom: 17px;
+}

@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+}
+
+.daterangepicker {
+  z-index: 9999999999999999 !important;
+}
+
+/* Hide Secondary calendar */
+.drp-calendar.right {
+  display: none !important;
+}
+
+.daterangepicker {
+  border-radius: 0;
+  margin-bottom: 16px;
+}
+
+.daterangepicker td.in-range {
+  background-color: #ffcea2;
+  border-radius: 0;
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+  background-color: #fe9739;
+  border-radius: 0;
+}
+
+.daterangepicker td.start-date.end-date {
+  border-radius: 0;
+}
+
+.daterangepicker .drp-selected {
+  display: none;
+}
+
+.daterangepicker .drp-buttons .btn {
+  background-color: #fe9739;
+  color: #ffffff;
+  border: none;
+  outline:none;
+}
