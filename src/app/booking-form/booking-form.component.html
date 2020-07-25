@@ -6,7 +6,7 @@
   <div class="property-title">Property: {{property.name}}</div>
   <div class="separate-input">
     <label>Dates:</label><br />
-    <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" />
+    <input type="text" readonly="readonly" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" />
   </div>
 
   <div class="separate-input">
