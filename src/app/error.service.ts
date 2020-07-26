@@ -23,6 +23,6 @@ export class ErrorService {
     }
 
     // Return an observable with a user-facing error message.
-    return throwError('Error ocurred')
+    return throwError('Error occurred')
   }
 }

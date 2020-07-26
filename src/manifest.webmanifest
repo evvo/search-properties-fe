@@ -1,7 +1,7 @@
 {
   "name": "search-properties-fe",
   "short_name": "search-properties-fe",
-  "theme_color": "#1976d2",
+  "theme_color": "#fe9739",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

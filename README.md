@@ -23,6 +23,18 @@ apiUrl - URL of the backend API
 mapApiKey - API key for HERE.com maps
 ```
 
+In case that you've changed the default backend base path from `/api`, change the url for the service worker in ngsw-config.json:
+```json
+...
+"dataGroups": [
+    {
+      "name": "backend-api",
+      "urls": [
+        "/api/**"
+      ],
+...
+```
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
