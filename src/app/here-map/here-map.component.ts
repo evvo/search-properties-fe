@@ -1,5 +1,6 @@
 import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {CurrentPropertyService} from "../current-property.service";
+import {PropertyService} from "../property.service";
+import {GeoLocationService} from "../geo-location.service";
 
 @Component({
   selector: 'here-map',
@@ -15,10 +16,10 @@ export class HereMapComponent implements OnInit {
   public appKey: String;
 
   @Input()
-  public lat: number;
+  public lat: number = 10;
 
   @Input()
-  public lng: number;
+  public lng: number = 10;
 
   public width: any;
 
@@ -51,26 +52,23 @@ export class HereMapComponent implements OnInit {
       "apiKey": this.appKey
     })
 
-    // Since H is external, I don't want to add ignore on every instance
-    // @ts-ignore
-    let HM = H
     let defaultLayers = platform.createDefaultLayers()
 
     // @ts-ignore
-    this.map = new HM.Map(
+    this.map = new H.Map(
       this.mapElement.nativeElement,
       defaultLayers.raster.normal.map,
       {
         zoom: 16,
         center: { lat: this.lat, lng: this.lng },
         pixelRatio: window.devicePixelRatio || 1,
-        padding: {top: 0, left: 0, bottom: 200, right: 0},
         fixedCenter: false
       }
     )
 
     window.addEventListener('resize', () => this.map.getViewPort().resize())
-    new HM.mapevents.Behavior(new HM.mapevents.MapEvents(this.map))
+    // @ts-ignore
+    new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map))
   }
 
   private initMarkers() {
@@ -89,25 +87,15 @@ export class HereMapComponent implements OnInit {
     this.currentMarker.setIcon(this.highlightedIcon)
   }
 
-  public ngAfterViewInit() {
-    this.initMap()
-  }
-
-  @HostListener('window:resize', ['$event'])
-  handleResize() {
-    this.height = document.documentElement.clientHeight - 59 + 'px';
-    this.width = document.documentElement.clientWidth + 'px';
-  }
-
-  ngOnInit(): void {
+  public initListeners() {
     this.handleResize()
-
     this.propertyService.onFetchedItems.subscribe((properties: any) => {
       this.propertyItems = properties
 
       this.initMarkers()
       this.initCurrentMarker()
       this.centerMap(this.propertyItems[0])
+      this.handleMapPadding()
     })
 
     this.propertyService.change.subscribe(current => {
@@ -123,12 +111,51 @@ export class HereMapComponent implements OnInit {
     })
   }
 
+  public ngAfterViewInit() {
+    this.geoLocationService.locationFetched.subscribe(location => {
+      this.lat = location.latitude
+      this.lng = location.longitude
+
+      this.initMap()
+      this.initListeners()
+    })
+  }
+
+  @HostListener('window:resize', ['$event'])
+  handleResize() {
+    const MENU_HEIGHT = 59;
+
+    this.height = document.documentElement.clientHeight - MENU_HEIGHT + 'px';
+    this.width = document.documentElement.clientWidth + 'px';
+
+    this.handleMapPadding()
+  }
+
+  // Moves the center of the map above the carousel
+  handleMapPadding() {
+    if (!this.map) {
+      return
+    }
+
+    if (document.documentElement.clientHeight <= 400) {
+      this.map.getViewPort().setPadding(0, 0, 90, 0)
+      return
+    }
+
+    this.map.getViewPort().setPadding(0, 0, 200, 0)
+  }
+
+  ngOnInit(): void {
+    this.handleResize()
+  }
+
   private centerMap(property) {
     this.map.setCenter({lat: property.position[0], lng: property.position[1]}, true)
   }
 
   constructor(
-    private propertyService: CurrentPropertyService
+    private propertyService: PropertyService,
+    private geoLocationService: GeoLocationService
   ) {
   }
 

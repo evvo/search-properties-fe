@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NguCarousel, NguCarouselConfig} from '@ngu/carousel';
-import {CurrentPropertyService} from "../current-property.service";
+import {PropertyService} from "../property.service";
 
 @Component({
   selector: 'properties-carousel',
@@ -11,6 +11,7 @@ export class PropertiesCarouselComponent implements OnInit {
   @ViewChild('propertiesCarousel') propertiesCarousel: any;
 
   public selectedProperty: Object = null
+  private currentItemIndex: number;
 
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 0, sm: 0, md: 0, lg: 0, all: 280 },
@@ -24,12 +25,10 @@ export class PropertiesCarouselComponent implements OnInit {
       hideOnSingleSlide: true
     }
   }
-  private currentItemIndex: number;
 
   constructor(
-    private propertyService: CurrentPropertyService
-  ) {
-  }
+    private propertyService: PropertyService
+  ) {}
 
   selectProperty(property): void {
     this.selectedProperty = property
@@ -48,7 +47,6 @@ export class PropertiesCarouselComponent implements OnInit {
 
     this.propertyService.change.subscribe(current => {
       this.currentItemIndex = this.propertyService.properties.findIndex(item => item.id == current.id)
-
       this.propertiesCarousel.moveTo(this.currentItemIndex)
     })
   }

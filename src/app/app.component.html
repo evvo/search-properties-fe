@@ -2,13 +2,11 @@
   <menu></menu>
   <app-errors></app-errors>
   <div class="main-container" *ngIf="isPositionEnabled">
-    <here-map appKey="{{mapApiKey}}" lat="{{location.latitude}}" lng="{{location.longitude}}"></here-map>
+    <here-map appKey="{{mapApiKey}}"></here-map>
     <properties-carousel></properties-carousel>
   </div>
 
   <div class="main-container" *ngIf="isPositionDeclined">
-    This website requires Geolocation to work propertly. Geolocation is not available.
+    This website requires Geolocation to work properly. Geolocation is not available.
   </div>
-
-
 </main>

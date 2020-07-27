@@ -4,12 +4,13 @@ import {Observable, throwError} from "rxjs";
 import { environment } from '../environments/environment';
 import {catchError, retry} from "rxjs/operators";
 import {ErrorService} from "./error.service";
+import {GeoLocationService} from "./geo-location.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CurrentPropertyService {
+export class PropertyService {
   public properties: Array<any> = []
   current: any = null
   currentLocation = {
@@ -21,15 +22,13 @@ export class CurrentPropertyService {
 
   @Output() onFetchedItems: EventEmitter<object> = new EventEmitter()
 
-  @Output() locationFetched: EventEmitter<object> = new EventEmitter()
-
   constructor(
     private http: HttpClient,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private geoLocationService: GeoLocationService
   ) {
-    this.locationFetched.subscribe((location) => {
+    this.geoLocationService.locationFetched.subscribe((location) => {
       this.currentLocation = location
-
       // TODO: Warning
       this.getProperties().subscribe(
         (data) => this.handleFetchedItems(data)
@@ -64,8 +63,7 @@ export class CurrentPropertyService {
     }
 
     // Return an observable with a user-facing error message.
-    return throwError(
-      'Something bad happened; please try again later.')
+    return throwError('Error occurred.')
   }
 
   public getProperties(): Observable<any> {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {CurrentPropertyService} from "./current-property.service";
 import { environment } from '../environments/environment';
+import {GeoLocationService} from "./geo-location.service";
 
 @Component({
   selector: 'app-root',
@@ -14,36 +14,17 @@ export class AppComponent {
   isPositionDeclined: boolean = false
   mapApiKey = environment.mapApiKey
 
-  location = {
-    latitude: 0,
-    longitude: 0
-  }
-
-  fetchLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.propertyService.locationFetched.emit(position.coords)
-        this.showPosition(position)
-      }, (error) => {
-        this.isPositionDeclined = true
-      })
-    } else {
-      this.isPositionDeclined = true
-    }
-  }
-
-  showPosition(position) {
-    this.isPositionEnabled = true
-    this.location.latitude = position.coords.latitude;
-    this.location.longitude = position.coords.longitude;
-  }
-
   constructor(
-    private propertyService: CurrentPropertyService,
+    private geoLocationService: GeoLocationService
   ) {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.fetchLocation(), 200)
+    this.geoLocationService.locationFetched.subscribe(location => {
+      this.isPositionEnabled = true
+    }, error => {
+      console.log(error)
+      this.isPositionDeclined = true
+    })
   }
 }
